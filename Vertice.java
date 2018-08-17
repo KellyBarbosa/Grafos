@@ -5,12 +5,14 @@ import java.util.List;
 
 public class Vertice {
 
-    public int num;
+    public int ValorVertice;
     public List<Aresta> adj;
+    public int id;
 
-    public Vertice(int num) {
-        this.num = num;
-        this.adj = new ArrayList<Aresta>();
+    public Vertice(int ValorVertice, int id) {
+        this.ValorVertice = ValorVertice;
+        this.id = id;
+        this.adj = new ArrayList<>();
     }
 
     public Vertice() {

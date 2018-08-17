@@ -4,14 +4,16 @@ public class Aresta {
 
     public Vertice origem;
     public Vertice destino;
-    public int num;
+    public int valorAresta;
+    int id;
 
     public Aresta() {
     }
 
-    Aresta(Vertice origem, Vertice destino, int num) {
+    Aresta(Vertice origem, Vertice destino, int valorAresta, int id) {
         this.origem = origem;
         this.destino = destino;
-        this.num = num;
+        this.valorAresta = valorAresta;
+        this.id = id;
     }
 }

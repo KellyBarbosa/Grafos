@@ -16,9 +16,9 @@ public class Grafos {
 
     public static void main(String[] args) {
         Grafos g = new Grafos();
-        int valorVertice1, valorVertice2, valorA;
         Scanner input = new Scanner(System.in);
-        while (true) {
+        
+        while ((arestas.size()) < 200 && (vertices.size()) < 100) {
             Vertice v;
             Aresta a;
             System.out.println("Informe um comando: ");
@@ -30,8 +30,7 @@ public class Grafos {
                     System.out.println("CV - Cria vértice");
                     int valorV;
                     valorV = Integer.parseInt(r[1]);
-                    v = g.insertVertex(valorV);
-
+                    v = Grafos.insertVertex(valorV, vertices.size()+1);
                     break;
                 case "DV":
                     System.out.println("DV - Deleta vértice");
@@ -39,32 +38,18 @@ public class Grafos {
                     break;
                 case "CA":
                     System.out.println("CA - Cria aresta");
-                    valorVertice1 = Integer.parseInt(r[1]);
-                    valorVertice2 = Integer.parseInt(r[2]);
-                    valorA = Integer.parseInt(r[3]);
-
-                    boolean verifica = procuraVertice(valorVertice1, valorVertice2);
-                    if (verifica) {
-                        Vertice v1, v2;
-                        v1 = ref(valorVertice1);
-                        v2 = ref(valorVertice2);
-                        a = g.insertEdge(v1, v2, valorA);
-                    }
+                  a = Grafos.insertEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]), Integer.parseInt(r[3]), arestas.size()+1);
                     break;
                 case "DA":
                     System.out.println("DA - Deleta aresta");
                     break;
                 case "TV":
                     System.out.println("TV - Troca valor do vértice");
-                    valorVertice1 = Integer.parseInt(r[1]);
-                    valorA = Integer.parseInt(r[2]);
-                    replaceVertex(valorVertice1, valorA);
+                    replaceVertex(Integer.parseInt(r[1]), Integer.parseInt(r[2]));
                     break;
                 case "TA":
                     System.out.println("TA - Troca valor da aresta");
-                    int valorAOriginal = Integer.parseInt(r[1]);
-                    valorA = Integer.parseInt(r[2]);
-                    replaceEdge(valorAOriginal, valorA);
+                    replaceEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]));
                     break;
                 case "IG":
                     System.out.println("IG - Imprime grafo");
@@ -83,17 +68,19 @@ public class Grafos {
 
     }
 
-    static public Vertice insertVertex(int x) {
-        Vertice v = new Vertice(x);
+    static public Vertice insertVertex(int x, int id) {
+        Vertice v = new Vertice(x, id);
         vertices.add(v);
         return v;
     }
 
-    static public Aresta insertEdge(Vertice origem, Vertice destino, int x) {
-        Aresta e = new Aresta(origem, destino, x);
+    static public Aresta insertEdge(int idOrigem, int idDestino, int x, int id) {
+        Vertice origem = ref(idOrigem), destino= ref(idDestino);
+        
+        Aresta e = new Aresta(origem, destino, x, id);
 
-        origem.addAdj(new Aresta(origem, destino, x));
-        destino.addAdj(new Aresta(destino, origem, x));
+        origem.addAdj(new Aresta(origem, destino, x, id));
+        destino.addAdj(new Aresta(destino, origem, x, id));
 
         arestas.add(e);
         return e;
@@ -103,10 +90,10 @@ public class Grafos {
     public String toString() {
         String r = "";
         for (Vertice u : vertices) {
-            r += u.num + " -> ";
+            r += u.ValorVertice + " -> ";
             for (Aresta e : u.adj) {
                 Vertice v = e.destino;
-                r += v.num + "(VA :" + e.num + " ),";
+                r += v.ValorVertice+" IdVerDestino: "+ v.id + " {ValorAres : " + e.valorAresta + ", IdAres: "+e.id+", IdVerOrigem: "+e.origem.id+", IdVerDestino: "+e.destino.id+"}; ";
             }
             r += "\n";
         }
@@ -116,50 +103,29 @@ public class Grafos {
     static public Vertice ref(int n) {
         Vertice v;
         for (int i = 0; i < vertices.size(); i++) {
-            if (vertices.get(i).num == n) {
+            if (vertices.get(i).id == n) {
                 return v = vertices.get(i);
             }
         }
         return null;
     }
 
-    static public boolean procuraVertice(int v1, int v2) {
-        boolean achouV1, achouV2;
-        achouV1 = achouV2 = false;
-        for (int i = 0; i < vertices.size(); i++) {
-            if (vertices.get(i).num == v1) {
-                achouV1 = true;
-            }
-            if (vertices.get(i).num == v2) {
-                achouV2 = true;
-            }
-        }
-        if (achouV1 && achouV2) {
-            return true;
-        }
-        return false;
-    }
-
     static void replaceVertex(int v, int o) {
         for (int i = 0; i < vertices.size(); i++) {
-            if (vertices.get(i).num == v) {
-                vertices.get(i).num = o;
-                // System.out.println("Valor de vertice alterado!");
+            if (vertices.get(i).id == v) {
+                vertices.get(i).ValorVertice = o;
                 return;
             }
         }
-        // System.out.println("Vertice não encontrado!");
     }
 
     static void replaceEdge(int v, int o) {
         for (int i = 0; i < vertices.size(); i++) {
             for (int j = 0; j < vertices.get(i).adj.size(); j++) {
-                if (vertices.get(i).adj.get(j).num == v) {
-                    vertices.get(i).adj.get(j).num = o;
-                    //        System.out.println("Valor de aresta alterado!");
+                if (vertices.get(i).adj.get(j).id == v) {
+                    vertices.get(i).adj.get(j).valorAresta = o;
                 }
             }
         }
-        //   System.out.println("Aresta não encontrada!");
     }
 }
