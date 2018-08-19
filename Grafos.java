@@ -64,24 +64,35 @@ public class Grafos {
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("O que deseja? 1 - EndVetices; 2 - EdgeValue; 3 - VertexValue");
+                    System.out.println("O que deseja? 1 - EndVetices; 2 - EdgeValue; 3 - VertexValue; 4 - AreAdjacent; 5 - Opposite;");
                     int op = input.nextInt();
                     switch (op) {
                         case 1:
-                            System.out.println("End Vertices");
+                            System.out.println("EndVertices");
                             Vertice[] x;
                             x = endVertices(Integer.parseInt(r[0]));
                             System.out.println("Os vertices da aresta " + refAresta(op).id + " são: Origem -> " + x[0].id + "; Destino -> " + x[1].id);
                             input.nextLine();
                             break;
                         case 2:
-                            System.out.println("edgeValue");
+                            System.out.println("EdgeValue");
                             System.out.println("O valor da aresta de id " + Integer.parseInt(r[0]) + " é: " + edgeValue(Integer.parseInt(r[0])));
                             input.nextLine();
                             break;
                         case 3:
-                            System.out.println("vertexValue");
+                            System.out.println("VertexValue");
                             System.out.println("O valor do vertice de id " + Integer.parseInt(r[0]) + " é: " + vertexValue(Integer.parseInt(r[0])));
+                            input.nextLine();
+                            break;
+                        case 4:
+                            System.out.println("AreAdjacent");
+                            System.out.println("O vertice de id " + Integer.parseInt(r[0]) + " e o vertice de id " + Integer.parseInt(r[1]) + " são adjacentes? " + areAdjacent(Integer.parseInt(r[0]), Integer.parseInt(r[1])));
+                            input.nextLine();
+                            break;
+                        case 5:
+                            System.out.println("Opposite");
+                            Vertice v1 = opposite(Integer.parseInt(r[0]), Integer.parseInt(r[1]));
+                            System.out.println("O vertice de id " + Integer.parseInt(r[0]) + " com valor " + vertices.get(Integer.parseInt(r[0]) - 1).ValorVertice + " e o vertice de id " + v1.id + " com valor " + v1.ValorVertice + " são opostos e ligados pela aresta de id " + Integer.parseInt(r[1]) + " com valor " + arestas.get(Integer.parseInt(r[1]) - 1).valorAresta);
                             input.nextLine();
                             break;
                     }
@@ -122,43 +133,40 @@ public class Grafos {
         return r;
     }
 
-    static public Vertice refVertice(int n) {
+    static public Vertice refVertice(int id) {
         Vertice v;
         for (int i = 0; i < vertices.size(); i++) {
-            if (vertices.get(i).id == n) {
+            if (vertices.get(i).id == id) {
                 return v = vertices.get(i);
             }
         }
         return null;
     }
 
-    static public Aresta refAresta(int n) {
+    static public Aresta refAresta(int id) {
         Aresta a;
         for (int i = 0; i < arestas.size(); i++) {
-            if (arestas.get(i).id == n) {
+            if (arestas.get(i).id == id) {
                 return a = arestas.get(i);
             }
         }
         return null;
     }
 
-    static public void replaceVertex(int v, int o) {
-        for (int i = 0; i < vertices.size(); i++) {
-            if (vertices.get(i).id == v) {
-                vertices.get(i).ValorVertice = o;
-                return;
-            }
-        }
+    static public void replaceVertex(int id, int o) {
+        vertices.get(id-1).ValorVertice = o;   
     }
 
-    static public void replaceEdge(int v, int o) {
+    static public void replaceEdge(int id, int o) {
+        
         for (int i = 0; i < vertices.size(); i++) {
             for (int j = 0; j < vertices.get(i).adj.size(); j++) {
-                if (vertices.get(i).adj.get(j).id == v) {
+                if (vertices.get(i).adj.get(j).id == id) {
                     vertices.get(i).adj.get(j).valorAresta = o;
                 }
             }
         }
+        
     }
 
     static public Vertice[] endVertices(int id) {
@@ -176,4 +184,25 @@ public class Grafos {
         Vertice v = refVertice(id);
         return v.ValorVertice;
     }
+
+    static public boolean areAdjacent(int v, int w) {
+        for (Aresta aresta : arestas) {
+            if ((aresta.origem.id == v && aresta.destino.id == w) || (aresta.origem.id == w && aresta.destino.id == v)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static public Vertice opposite(int idV, int idA) {
+        if (vertices.get(idV - 1).id == idV) {
+            if (arestas.get(idA - 1).destino.id == idV) {
+                return arestas.get(idA - 1).origem;
+            } else if (arestas.get(idA - 1).origem.id == idV) {
+                return arestas.get(idA - 1).destino;
+            }
+        }
+        return null;
+    }
+
 }
