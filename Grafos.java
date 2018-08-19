@@ -195,14 +195,12 @@ public class Grafos {
     }
 
     static public Vertice opposite(int idV, int idA) {
-        if (vertices.get(idV - 1).id == idV) {
             if (arestas.get(idA - 1).destino.id == idV) {
                 return arestas.get(idA - 1).origem;
             } else if (arestas.get(idA - 1).origem.id == idV) {
                 return arestas.get(idA - 1).destino;
             }
-        }
         return null;
     }
-
+    
 }
