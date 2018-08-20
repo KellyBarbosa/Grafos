@@ -16,15 +16,20 @@ public class Grafos {
 
     public static void main(String[] args) {
         Grafos g = new Grafos();
+        MenorCaminho menor = new MenorCaminho();
         Scanner input = new Scanner(System.in);
 
         while ((arestas.size()) < 200 && (vertices.size()) < 100) {
             Vertice v;
             Aresta a;
+            ArrayList<Vertice> menorCaminho;
+            int custo = 0;
+            
             System.out.println("Informe um comando: ");
             String l = input.nextLine();
             l = l.toUpperCase();
             String r[] = l.split(" ");
+            
             switch (r[0]) {
                 case "CV":
                     System.out.println("CV - Cria vértice");
@@ -57,7 +62,14 @@ public class Grafos {
                     break;
                 case "CM":
                     System.out.println("CM - Caminho minimo");
-                    System.out.println(g);
+                    menorCaminho = menor.dijkstra(g, Integer.parseInt(r[1]), Integer.parseInt(r[2]));
+                    custo = menor.custo(menorCaminho);
+                    System.out.println(custo);
+                    for(Vertice ver : menorCaminho)
+                    {
+                        System.out.print(ver.id + ",");
+                    }
+                    
                     break;
                 case "FM":
                     System.out.println("FM - Termina a exeução");
@@ -201,6 +213,5 @@ public class Grafos {
                 return arestas.get(idA - 1).destino;
             }
         return null;
-    }
-    
+    }   
 }
