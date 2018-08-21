@@ -18,24 +18,22 @@ public class Grafos {
         Grafos g = new Grafos();
         MenorCaminho menor = new MenorCaminho();
         Scanner input = new Scanner(System.in);
-
+        int contArestas, contVertices;
+        contArestas = contVertices = 0;
         while ((arestas.size()) < 200 && (vertices.size()) < 100) {
             Vertice v;
             Aresta a;
             ArrayList<Vertice> menorCaminho;
             int custo = 0;
-            
+
             System.out.println("Informe um comando: ");
             String l = input.nextLine();
             l = l.toUpperCase();
             String r[] = l.split(" ");
-            
             switch (r[0]) {
                 case "CV":
                     System.out.println("CV - Cria vértice");
-                    int valorV;
-                    valorV = Integer.parseInt(r[1]);
-                    v = Grafos.insertVertex(valorV, vertices.size() + 1);
+                    v = Grafos.insertVertex(Integer.parseInt(r[1]), ++contVertices);
                     break;
                 case "DV":
                     System.out.println("DV - Deleta vértice");
@@ -43,7 +41,7 @@ public class Grafos {
                     break;
                 case "CA":
                     System.out.println("CA - Cria aresta");
-                    a = Grafos.insertEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]), Integer.parseInt(r[3]), arestas.size() + 1);
+                    a = Grafos.insertEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]), Integer.parseInt(r[3]), ++contArestas);
                     break;
                 case "DA":
                     System.out.println("DA - Deleta aresta");
@@ -58,25 +56,23 @@ public class Grafos {
                     break;
                 case "IG":
                     System.out.println("IG - Imprime grafo");
-                    System.out.println(g);
+                    print();
                     break;
                 case "CM":
                     System.out.println("CM - Caminho minimo");
                     menorCaminho = menor.dijkstra(g, Integer.parseInt(r[1]), Integer.parseInt(r[2]));
                     custo = menor.custo(menorCaminho);
                     System.out.println(custo);
-                    for(Vertice ver : menorCaminho)
-                    {
+                    for (Vertice ver : menorCaminho) {
                         System.out.print(ver.id + ",");
                     }
-                    
                     break;
                 case "FM":
                     System.out.println("FM - Termina a exeução");
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("O que deseja? 1 - EndVetices; 2 - EdgeValue; 3 - VertexValue; 4 - AreAdjacent; 5 - Opposite;");
+                    System.out.println("O que deseja? 1 - EndVetices; 2 - EdgeValue; 3 - VertexValue; 4 - AreAdjacent; 5 - Opposite; 6 - RemoveEdge; 7 - RemoveVertex ");
                     int op = input.nextInt();
                     switch (op) {
                         case 1:
@@ -107,6 +103,16 @@ public class Grafos {
                             System.out.println("O vertice de id " + Integer.parseInt(r[0]) + " com valor " + vertices.get(Integer.parseInt(r[0]) - 1).ValorVertice + " e o vertice de id " + v1.id + " com valor " + v1.ValorVertice + " são opostos e ligados pela aresta de id " + Integer.parseInt(r[1]) + " com valor " + arestas.get(Integer.parseInt(r[1]) - 1).valorAresta);
                             input.nextLine();
                             break;
+                        case 6:
+                            System.out.println("RemoveEdge");
+                            System.out.println("A aresta de id " + Integer.parseInt(r[0]) + " com valor " + removeEdge(Integer.parseInt(r[0]))+ " foi removido.");
+                            input.nextLine();
+                            break;
+                            case 7:
+                            System.out.println("RemoveVertex");
+                            System.out.println("O vertice de id " + Integer.parseInt(r[0]) + " com valor " + removeVertex(Integer.parseInt(r[0]))+ " foi removido.");
+                            input.nextLine();
+                            break;
                     }
             }
         }
@@ -131,18 +137,15 @@ public class Grafos {
         return e;
     }
 
-    @Override
-    public String toString() {
-        String r = "";
-        for (Vertice u : vertices) {
-            r += u.ValorVertice + " -> ";
-            for (Aresta e : u.adj) {
-                Vertice v = e.destino;
-                r += v.ValorVertice + " IdVerDestino: " + v.id + " {ValorAres : " + e.valorAresta + ", IdAres: " + e.id + ", IdVerOrigem: " + e.origem.id + ", IdVerDestino: " + e.destino.id + "}; ";
-            }
-            r += "\n";
+    static public void print() {
+        System.out.println(vertices.size());
+        for (int i = 0; i < vertices.size(); i++) {
+            System.out.println(vertices.get(i).id + " " + vertices.get(i).ValorVertice);
         }
-        return r;
+        System.out.println(arestas.size());
+        for (int i = 0; i < arestas.size(); i++) {
+            System.out.println(arestas.get(i).id + " " + arestas.get(i).origem.id + " " + arestas.get(i).destino.id + " " + arestas.get(i).valorAresta);
+        }
     }
 
     static public Vertice refVertice(int id) {
@@ -166,11 +169,11 @@ public class Grafos {
     }
 
     static public void replaceVertex(int id, int o) {
-        vertices.get(id-1).ValorVertice = o;   
+        vertices.get(id - 1).ValorVertice = o;
     }
 
     static public void replaceEdge(int id, int o) {
-        
+
         for (int i = 0; i < vertices.size(); i++) {
             for (int j = 0; j < vertices.get(i).adj.size(); j++) {
                 if (vertices.get(i).adj.get(j).id == id) {
@@ -178,7 +181,7 @@ public class Grafos {
                 }
             }
         }
-        
+
     }
 
     static public Vertice[] endVertices(int id) {
@@ -207,11 +210,35 @@ public class Grafos {
     }
 
     static public Vertice opposite(int idV, int idA) {
-            if (arestas.get(idA - 1).destino.id == idV) {
-                return arestas.get(idA - 1).origem;
-            } else if (arestas.get(idA - 1).origem.id == idV) {
-                return arestas.get(idA - 1).destino;
-            }
+        if (arestas.get(idA - 1).destino.id == idV) {
+            return arestas.get(idA - 1).origem;
+        } else if (arestas.get(idA - 1).origem.id == idV) {
+            return arestas.get(idA - 1).destino;
+        }
         return null;
-    }   
+    }
+
+    static public int removeEdge(int idA) {
+        Aresta aresta = refAresta(idA);
+        for (int i = 0; i < arestas.size(); i++) {
+            if (arestas.get(i).id == idA) {
+                arestas.remove(i);
+            }
+        }
+        return aresta.valorAresta;
+    }
+    
+    static public int removeVertex(int idV) {
+        Vertice vertice = refVertice(idV);
+        for (int i = 0; i < vertices.size(); i++) {
+            if (vertices.get(i).id == idV) {  
+                for (int j = 0; j < vertices.get(i).adj.size()  ; j++) {
+                    removeEdge(vertices.get(i).adj.get(j).id);
+                }
+                vertices.remove(i);
+            }
+        }
+        return vertice.ValorVertice;
+    }
+
 }
