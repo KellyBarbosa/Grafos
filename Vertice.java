@@ -10,6 +10,7 @@ public class Vertice implements Comparable<Vertice>{
     public int id;
     private int distancia;
     private Vertice parente;
+    public boolean controle = false;
     
     public Vertice(int ValorVertice, int id) {
         this.ValorVertice = ValorVertice;

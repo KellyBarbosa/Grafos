@@ -11,13 +11,18 @@ import java.util.ArrayList;
  *
  * @author lucas
  */
-public class Grafo {
+public class Grafo implements Cloneable{
     public ArrayList<Vertice> vertices;
     public ArrayList<Aresta> arestas;
     
     public Grafo() {
         vertices = new ArrayList<>();
         arestas = new ArrayList<>();
+    }
+    
+    @Override
+    public Grafo clone() throws CloneNotSupportedException {
+        return (Grafo) super.clone();
     }
     
     public Vertice insertVertex(int x, int id) {

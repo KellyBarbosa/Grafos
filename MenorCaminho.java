@@ -42,6 +42,8 @@ public class MenorCaminho {
     
     public ArrayList<Vertice> dijkstra(Grafo G, int o, int d)
     {
+        seta_controle(G);
+        
         Vertice origem = G.vertices.get(o - 1);
         Vertice destino = G.vertices.get(d - 1);
         
@@ -70,7 +72,7 @@ public class MenorCaminho {
                 this.adijacente = this.atual.adj.get(i).destino;
                 int pesoCaminho = this.atual.getDistancia() + this.atual.adj.get(i).valorAresta;
                 
-                if(!this.vizitados.contains(this.adijacente))
+                if(!this.adijacente.controle)
                 {
                     if(this.adijacente.getDistancia() > pesoCaminho)
                     {
@@ -98,7 +100,8 @@ public class MenorCaminho {
                 }
             }
             
-            this.vizitados.add(atual);
+            //this.vizitados.add(atual);
+            this.atual.controle = true;
             this.naoVizitados.remove(atual);
             Collections.sort(this.naoVizitados);
         }
@@ -106,5 +109,13 @@ public class MenorCaminho {
         //Vertice ultimo = this.menorCaminho.get(this.menorCaminho.size() -1);
         //this.menorDistancia = ultimo.getDistancia();
         return this.menorCaminho;
+    }
+    
+    public void seta_controle(Grafo G)
+    {
+        G.vertices.forEach((v) -> {
+            v.controle = false;
+            v.setParente(null);
+        });
     }
 }

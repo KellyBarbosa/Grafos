@@ -7,6 +7,8 @@ package grafos;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,7 +56,12 @@ public class Main {
                     G.print();
                     break;
                 case "CM":
-                    ArrayList<Vertice> menorCaminho = G.Dijkstra(G, Integer.parseInt(r[1]), Integer.parseInt(r[2]));
+                    ArrayList<Vertice> menorCaminho = new ArrayList<>();
+                        try {
+                            menorCaminho = G.Dijkstra(G.clone(), Integer.parseInt(r[1]), Integer.parseInt(r[2]));
+                        } catch (CloneNotSupportedException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     System.out.println(G.custo(menorCaminho));
 
                     menorCaminho.forEach((ver) -> {
