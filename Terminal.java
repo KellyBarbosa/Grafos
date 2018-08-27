@@ -181,7 +181,12 @@ public class Terminal extends javax.swing.JFrame {
                                 menorCaminho.forEach((ver) -> {
                                     System.out.print(ver.id + " ");
                                 });
-                                area.setText("Digite um comando!\n");
+                                ArrayList<String> tes = new ArrayList<>();
+                                for(Vertice v : menorCaminho)
+                                {
+                                    tes.add(v.id + " ");
+                                }
+                                area.setText(G.custo(menorCaminho)+"\n"+tes.toString()+"\n");
                             } catch (Exception e) {
                                 area.setText("Comando inválido!\n");
                             }
