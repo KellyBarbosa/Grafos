@@ -67,6 +67,7 @@ public class Main {
                     menorCaminho.forEach((ver) -> {
                         System.out.print(ver.id + " ");
                     });
+                    System.out.println();
                     break;
                 case "FM":
                     System.out.println("FM - Termina a exeução");
