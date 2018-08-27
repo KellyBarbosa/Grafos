@@ -43,8 +43,8 @@ public class Grafo implements Cloneable{
         return e;
     }
     
-    public void print() {
-        System.out.println(vertices.size());
+    public Object print() {
+        /*System.out.println(vertices.size());
         for (int i = 0; i < vertices.size(); i++) {
             System.out.println(vertices.get(i).id + " " + vertices.get(i).ValorVertice);
         }
@@ -52,6 +52,11 @@ public class Grafo implements Cloneable{
         for (int i = 0; i < arestas.size(); i++) {
             System.out.println(arestas.get(i).id + " " + arestas.get(i).origem.id + " " + arestas.get(i).destino.id + " " + arestas.get(i).valorAresta);
         }
+        */
+        
+        Object objeto = new Object[]{arestas, vertices};
+        
+        return objeto;
     }
     
     public Vertice refVertice(int id) {
