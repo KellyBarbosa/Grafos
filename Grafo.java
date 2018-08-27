@@ -158,6 +158,22 @@ public class Grafo implements Cloneable{
         
         return menorCaminho;
     }
+
+    public ArrayList<Vertice> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(ArrayList<Vertice> vertices) {
+        this.vertices = vertices;
+    }
+
+    public ArrayList<Aresta> getArestas() {
+        return arestas;
+    }
+
+    public void setArestas(ArrayList<Aresta> arestas) {
+        this.arestas = arestas;
+    }
     
     public int custo(ArrayList<Vertice> menores)
     {

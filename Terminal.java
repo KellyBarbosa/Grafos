@@ -5,25 +5,28 @@
  */
 package grafos;
 
+/**
+ *
+ * @author lucas
+ */
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Scanner;
-import grafos.Aresta;
-import grafos.Grafo;
-import grafos.Vertice;
 
 /**
  *
  * @author agostinhoneto
  */
 public class Terminal extends javax.swing.JFrame {
+
     char letra;
     String cont = "";
     int tam;
     Grafo G = new Grafo();
     int contVertices = 0;
     int contArestas = 0;
+
     /**
      * Creates new form Terminal
      */
@@ -32,194 +35,187 @@ public class Terminal extends javax.swing.JFrame {
         //Coloco o menu inicial
         area.setText("Digite um comando!\n");
         area.setEnabled(false);
-        Thread t1 = new Thread(new MyClass ());
+        Thread t1 = new Thread(new MyClass());
         t1.start();
-        
+
         addKeyListener(new KeyAdapter() {
-        
-        public void keyPressed(KeyEvent k){
-        
-        if (!((G.arestas.size()) < 200 && (G.vertices.size()) < 100)) {
-                System.exit(0);
-        }
-        
-        letra = k.getKeyChar();
-        int cod = k.getKeyCode();
-        
-        //Toda vez que der enter rodo o que tem escrito e limpo a tela
-        if(letra == '\n'){
-        cont = cont.toLowerCase();
-        System.out.println(cont);
-        //Testo o conteudo
-        char[] ori = cont.toCharArray();
-        tam = cont.length();
 
-        char tipo[] = new char[2];
-        char val[] = new char[1];
-        //Pego o tipo
-        tipo[0] = ori[0];
-        tipo[1] = ori[1];
-       
-        String u = new String(tipo);
-        
-        //Testes
-        switch (u) {
-        case "ca":
-            try{
-            String r[] = cont.split(" ");
-            
-            area.setText("");
-            
-            //Chama a funçao
-            G.insertEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]), Integer.parseInt(r[3]), ++contArestas);
-            area.setText("Digite um comando!\n");
-            }catch(Exception e){
-            area.setText("Comando inválido!\n");
-            }
-            break;
-            
-        case "cv":
-            try{
-            String r[] = cont.split(" ");
-            
-            area.setText("");
-            
-            
-            //Chama a funçao
-            G.insertVertex(Integer.parseInt(r[1]), ++contVertices);
-            area.setText("Digite um comando!\n");
-            }catch(Exception e){
-            area.setText("Comando inválido!\n");
-            }
-            break;
-            
-        case "dv":
-            try{
-            String r[] = cont.split(" ");
-            
-            area.setText("");
-            
-            
-            //Chama a funçao
-            G.removeVertex(Integer.parseInt(r[1]));
-            area.setText("Digite um comando!\n");
-            }catch(Exception e){
-            area.setText("Comando inválido!\n");
-            }
-            break;
-            
-        case "da":
-            try{
-            String r[] = cont.split(" ");
-            
-            area.setText("");
-            
-            
-            //Chama a funçao
-            G.removeEdge(Integer.parseInt(r[1]));
-            area.setText("Digite um comando!\n");
-            }catch(Exception e){
-            area.setText("Comando inválido!\n");
-            }
-            break;
-            
-        case "tv":
-            
-            try{
-            String r[] = cont.split(" ");
-            
-            area.setText("");
-            
-            
-            //Chama a funçao
-            G.replaceVertex(Integer.parseInt(r[1]), Integer.parseInt(r[2]));
-            area.setText("Digite um comando!\n");
-            }catch(Exception e){
-            area.setText("Comando inválido!\n");
-            }
-            break;
-            
-        case "ta":
-            try{
-            String r[] = cont.split(" ");
-            
-            area.setText("");
-            
-            
-            //Chama a funçao
-            G.replaceEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]));
-            area.setText("Digite um comando!\n");
-            }catch(Exception e){
-            area.setText("Comando inválido!\n");
-            }
-            break;
-        
-        case "ig":
-            ArrayList<Vertice> vertice = new ArrayList();
-            vertice = G.getVertices();
-            
-            ArrayList<Aresta> arestas = new ArrayList();
-            arestas = G.getArestas();
-            
-            System.out.println(vertice.size());
-            for (int i = 0; i < vertice.size(); i++) {
-                System.out.println(vertice.get(i).id + " " + vertice.get(i).ValorVertice);
-            }
-            System.out.println(arestas.size());
-            for (int i = 0; i < arestas.size(); i++) {
-            System.out.println(arestas.get(i).id + " " + arestas.get(i).origem.id + " " + arestas.get(i).destino.id + " " + arestas.get(i).valorAresta);
-            }
-            
-            break;
-            
-        case "cm":
-            try{
-            String r[] = cont.split(" ");
-            
-            area.setText("");
-            ArrayList<Vertice> menorCaminho = G.Dijkstra(G, Integer.parseInt(r[1]), Integer.parseInt(r[2]));
-                    System.out.println(G.custo(menorCaminho));
+            public void keyPressed(KeyEvent k) {
 
-                    menorCaminho.forEach((ver) -> {
-                        System.out.print(ver.id + " ");
-                    });
-            area.setText("Digite um comando!\n");
-            }catch(Exception e){
-            area.setText("Comando inválido!\n");
+                if (!((G.arestas.size()) < 200 && (G.vertices.size()) < 100)) {
+                    System.exit(0);
+                }
+
+                letra = k.getKeyChar();
+                int cod = k.getKeyCode();
+
+                //Toda vez que der enter rodo o que tem escrito e limpo a tela
+                if (letra == '\n') {
+                    cont = cont.toLowerCase();
+                    System.out.println(cont);
+                    //Testo o conteudo
+                    char[] ori = cont.toCharArray();
+                    tam = cont.length();
+
+                    char tipo[] = new char[2];
+                    char val[] = new char[1];
+                    //Pego o tipo
+                    tipo[0] = ori[0];
+                    tipo[1] = ori[1];
+
+                    String u = new String(tipo);
+
+                    //Testes
+                    switch (u) {
+                        case "ca":
+                            try {
+                                String r[] = cont.split(" ");
+
+                                area.setText("");
+
+                                //Chama a funçao
+                                G.insertEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]), Integer.parseInt(r[3]), ++contArestas);
+                                area.setText("Digite um comando!\n");
+                            } catch (Exception e) {
+                                area.setText("Comando inválido!\n");
+                            }
+                            break;
+
+                        case "cv":
+                            try {
+                                String r[] = cont.split(" ");
+
+                                area.setText("");
+
+                                //Chama a funçao
+                                G.insertVertex(Integer.parseInt(r[1]), ++contVertices);
+                                area.setText("Digite um comando!\n");
+                            } catch (Exception e) {
+                                area.setText("Comando inválido!\n");
+                            }
+                            break;
+
+                        case "dv":
+                            try {
+                                String r[] = cont.split(" ");
+
+                                area.setText("");
+
+                                //Chama a funçao
+                                G.removeVertex(Integer.parseInt(r[1]));
+                                area.setText("Digite um comando!\n");
+                            } catch (Exception e) {
+                                area.setText("Comando inválido!\n");
+                            }
+                            break;
+
+                        case "da":
+                            try {
+                                String r[] = cont.split(" ");
+
+                                area.setText("");
+
+                                //Chama a funçao
+                                G.removeEdge(Integer.parseInt(r[1]));
+                                area.setText("Digite um comando!\n");
+                            } catch (Exception e) {
+                                area.setText("Comando inválido!\n");
+                            }
+                            break;
+
+                        case "tv":
+
+                            try {
+                                String r[] = cont.split(" ");
+
+                                area.setText("");
+
+                                //Chama a funçao
+                                G.replaceVertex(Integer.parseInt(r[1]), Integer.parseInt(r[2]));
+                                area.setText("Digite um comando!\n");
+                            } catch (Exception e) {
+                                area.setText("Comando inválido!\n");
+                            }
+                            break;
+
+                        case "ta":
+                            try {
+                                String r[] = cont.split(" ");
+
+                                area.setText("");
+
+                                //Chama a funçao
+                                G.replaceEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]));
+                                area.setText("Digite um comando!\n");
+                            } catch (Exception e) {
+                                area.setText("Comando inválido!\n");
+                            }
+                            break;
+
+                        case "ig":
+                            ArrayList<Vertice> vertice = new ArrayList();
+                            vertice = G.getVertices();
+
+                            ArrayList<Aresta> arestas = new ArrayList();
+                            arestas = G.getArestas();
+
+                            System.out.println(vertice.size());
+                            for (int i = 0; i < vertice.size(); i++) {
+                                System.out.println(vertice.get(i).id + " " + vertice.get(i).ValorVertice);
+                            }
+                            System.out.println(arestas.size());
+                            for (int i = 0; i < arestas.size(); i++) {
+                                System.out.println(arestas.get(i).id + " " + arestas.get(i).origem.id + " " + arestas.get(i).destino.id + " " + arestas.get(i).valorAresta);
+                            }
+
+                            break;
+
+                        case "cm":
+                            try {
+                                String r[] = cont.split(" ");
+
+                                area.setText("");
+                                ArrayList<Vertice> menorCaminho = G.Dijkstra(G, Integer.parseInt(r[1]), Integer.parseInt(r[2]));
+                                System.out.println(G.custo(menorCaminho));
+
+                                menorCaminho.forEach((ver) -> {
+                                    System.out.print(ver.id + " ");
+                                });
+                                area.setText("Digite um comando!\n");
+                            } catch (Exception e) {
+                                area.setText("Comando inválido!\n");
+                            }
+                            break;
+
+                        case "fm":
+                            System.exit(0);
+                    }
+
+                    //Zero a string
+                    cont = "";
+
+                } else {
+
+                    if (cod == KeyEvent.VK_BACK_SPACE) {
+                        char[] ori = cont.toCharArray();
+                        tam = cont.length();
+
+                        char vetor[] = new char[tam - 1];
+
+                        for (int d = 0; d < tam - 1; d++) {
+                            vetor[d] = ori[d];
+                        }
+
+                        cont = new String(vetor);
+                        area.setText(cont);
+                    } else {
+                        cont += letra;
+                        area.setText(cont);
+                    }
+
+                }
+
             }
-            break;
-        
-        case "fm":
-            System.exit(0);
-        }
-       
-        
-        //Zero a string
-        
-        cont = "";
-        
-        }else{
-            
-            if(cod == KeyEvent.VK_BACK_SPACE){
-            char[] ori = cont.toCharArray();
-            tam = cont.length();
-            
-            char vetor[] = new char[tam-1];
-            
-            for(int d=0; d<tam-1; d++){
-            vetor[d] = ori[d];
-            }
-            
-            cont = new String(vetor);
-            area.setText(cont);
-            }else{
-            cont+=letra;
-            area.setText(cont);
-            }
-        
-        }
-        
-        }
 
         });
     }
@@ -245,12 +241,12 @@ public class Terminal extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
 
         pack();
@@ -296,14 +292,11 @@ public class Terminal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-public class MyClass implements Runnable {
-    
-public void run(){
-    
-    
-    
-    
-   } 
-}
+    public class MyClass implements Runnable {
+
+        public void run() {
+
+        }
+    }
 
 }
