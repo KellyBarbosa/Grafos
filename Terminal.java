@@ -58,7 +58,7 @@ public class Terminal extends javax.swing.JFrame {
                     tam = cont.length();
 
                     char tipo[] = new char[2];
-                    char val[] = new char[1];
+                    
                     //Pego o tipo
                     tipo[0] = ori[0];
                     tipo[1] = ori[1];
@@ -70,12 +70,14 @@ public class Terminal extends javax.swing.JFrame {
                         case "ca":
                             try {
                                 String r[] = cont.split(" ");
-
+                                System.out.println(r[2]);
                                 area.setText("");
 
                                 //Chama a funçao
-                                G.insertEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]), Integer.parseInt(r[3]), ++contArestas);
                                 area.setText("Digite um comando!\n");
+                                G.insertEdge(Integer.parseInt(r[1]), Integer.parseInt(r[2]), Integer.parseInt(r[3]), ++contArestas);
+                                
+                                
                             } catch (Exception e) {
                                 area.setText("Comando inválido!\n");
                             }
@@ -159,15 +161,24 @@ public class Terminal extends javax.swing.JFrame {
                             ArrayList<Aresta> arestas = new ArrayList();
                             arestas = G.getArestas();
 
+                            cont = "";
+                            cont+=vertice.size();
+                            cont+="\n";
                             System.out.println(vertice.size());
                             for (int i = 0; i < vertice.size(); i++) {
                                 System.out.println(vertice.get(i).id + " " + vertice.get(i).ValorVertice);
+                                cont+= vertice.get(i).id + " " + vertice.get(i).ValorVertice;
+                                cont+="\n";
                             }
+                            
                             System.out.println(arestas.size());
                             for (int i = 0; i < arestas.size(); i++) {
                                 System.out.println(arestas.get(i).id + " " + arestas.get(i).origem.id + " " + arestas.get(i).destino.id + " " + arestas.get(i).valorAresta);
+                                cont += arestas.get(i).id + " " + arestas.get(i).origem.id + " " + arestas.get(i).destino.id + " " + arestas.get(i).valorAresta;
+                                cont+="\n";
                             }
-
+                            cont+="Digite um comando!\n";
+                            area.setText(cont);
                             break;
 
                         case "cm":
@@ -186,7 +197,7 @@ public class Terminal extends javax.swing.JFrame {
                                 {
                                     tes.add(v.id + " ");
                                 }
-                                area.setText(G.custo(menorCaminho)+"\n"+tes.toString()+"\n");
+                                area.setText(G.custo(menorCaminho)+"\n"+tes.toString()+"\n"+"Digite um comando!"+"\n");
                             } catch (Exception e) {
                                 area.setText("Comando inválido!\n");
                             }
@@ -202,8 +213,11 @@ public class Terminal extends javax.swing.JFrame {
                 } else {
 
                     if (cod == KeyEvent.VK_BACK_SPACE) {
-                        char[] ori = cont.toCharArray();
+                        
                         tam = cont.length();
+                        if(tam > 0){
+                        char[] ori = cont.toCharArray();
+                        
 
                         char vetor[] = new char[tam - 1];
 
@@ -213,6 +227,7 @@ public class Terminal extends javax.swing.JFrame {
 
                         cont = new String(vetor);
                         area.setText(cont);
+                        }
                     } else {
                         cont += letra;
                         area.setText(cont);
