@@ -5,10 +5,6 @@
  */
 package grafos;
 
-import static grafos.Grafos.arestas;
-import static grafos.Grafos.refAresta;
-import static grafos.Grafos.refVertice;
-import static grafos.Grafos.vertices;
 import java.util.ArrayList;
 
 /**
