@@ -73,16 +73,8 @@ public class Main {
                     System.out.println("FM - Termina a exeução");
                     System.exit(0);
                     break;
-                default:
-                    System.out.println("O que deseja? 1 - EndVetices; 2 - EdgeValue; 3 - VertexValue; 4 - AreAdjacent; 5 - Opposite; 6 - RemoveEdge; 7 - RemoveVertex ");
-                    int op = input.nextInt();
-                    menu(op, G);
+                   
             }
         }
-    }
-
-    public static void menu(int op, Grafo G) {
-        Scanner input = new Scanner(System.in);
-        
     }
 }
