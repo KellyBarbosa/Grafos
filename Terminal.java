@@ -9,9 +9,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Scanner;
-import metodos.Aresta;
-import metodos.Grafo;
-import metodos.Vertice;
+import grafos.Aresta;
+import grafos.Grafo;
+import grafos.Vertice;
 
 /**
  *
