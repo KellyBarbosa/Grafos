@@ -22,6 +22,7 @@ public class MenorCaminho {
     private Vertice atual;
     private Vertice adijacente;
     private int infinito = 1000000000;
+    private int menorDistancia = 0;
     
     public MenorCaminho()
     {
@@ -33,18 +34,13 @@ public class MenorCaminho {
          this.adijacente = new Vertice();
     }
     
-    public int custo(ArrayList<Vertice> caminhoMinimo)
+    public int custo(ArrayList<Vertice> menores)
     {
-        int valor = 0;
-        for(Vertice v : caminhoMinimo)
-        {
-            valor += v.getDistancia();
-        }
-        
-        return valor;
+        Vertice ultimo = menores.get(menores.size() -1);
+        return ultimo.getDistancia();
     }
     
-    public ArrayList<Vertice> dijkstra(Grafos G, int o, int d)
+    public ArrayList<Vertice> dijkstra(Grafo G, int o, int d)
     {
         Vertice origem = G.vertices.get(o - 1);
         Vertice destino = G.vertices.get(d - 1);
@@ -74,24 +70,30 @@ public class MenorCaminho {
                 this.adijacente = this.atual.adj.get(i).destino;
                 int pesoCaminho = this.atual.getDistancia() + this.atual.adj.get(i).valorAresta;
                 
-                if(this.adijacente.getDistancia() > pesoCaminho)
+                if(!this.vizitados.contains(this.adijacente))
                 {
-                    this.adijacente.setDistancia(pesoCaminho);
-                    this.adijacente.setParente(this.atual);
-                    
-                    if(this.adijacente == destino)
+                    if(this.adijacente.getDistancia() > pesoCaminho)
                     {
-                        this.menorCaminho.clear();
-                        this.caminho = adijacente;
-                        this.menorCaminho.add(adijacente);
-                        
-                        while(caminho.getParente() != null)
+                        this.adijacente.setDistancia(pesoCaminho);
+                        this.adijacente.setParente(this.atual);
+
+                        if(this.adijacente == destino)
                         {
-                            menorCaminho.add(caminho.getParente());
-                            caminho = caminho.getParente();
+                            this.menorCaminho.clear();
+                            this.menorDistancia = 0;
+                            
+                            this.caminho = adijacente;
+                            this.menorCaminho.add(adijacente);
+                            
+                            while(caminho.getParente() != null)
+                            {   
+                                menorCaminho.add(caminho.getParente());
+                                caminho = caminho.getParente();
+                            }
+
+                            Collections.sort(this.menorCaminho);
+                           
                         }
-                        
-                        Collections.sort(this.menorCaminho);
                     }
                 }
             }
@@ -101,6 +103,8 @@ public class MenorCaminho {
             Collections.sort(this.naoVizitados);
         }
         
+        //Vertice ultimo = this.menorCaminho.get(this.menorCaminho.size() -1);
+        //this.menorDistancia = ultimo.getDistancia();
         return this.menorCaminho;
     }
 }
